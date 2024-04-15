@@ -12,8 +12,7 @@
 
 4. **⚙️ Update Windows PATH Variable**:
     - Add the Flutter SDK `bin` directory (`%USERPROFILE%\dev\flutter\bin`) to your PATH environment variable.
-    - Open System Properties (`Windows` + `Pause`).
-    - Click on "Advanced system settings" > "Environment Variables".
+    - Search "Environment Variables".
     - In the "User variables for {username}" section, locate or create a `Path` variable.
     - Add the Flutter `bin` directory (`%USERPROFILE%\dev\flutter\bin`) to the list of paths.
     - Ensure it is at the top of the list for priority.
