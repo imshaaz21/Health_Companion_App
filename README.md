@@ -51,6 +51,12 @@
 
 - Once you have installed all the necessary components, you can start developing Flutter apps for Windows and Android.
 
+## Sample UIs
+- [Sleep Monitor](https://dribbble.com/shots/21655991-Sleep-Tracker-UI?utm_source=Clipboard_Shot&utm_campaign=ouhano&utm_content=Sleep%20Tracker%20UI&utm_medium=Social_Share&utm_source=Clipboard_Shot&utm_campaign=ouhano&utm_content=Sleep%20Tracker%20UI&utm_medium=Social_Share)
+- [Step Counter](https://dribbble.com/shots/23650935-Sparta-Health-Tracking-App?utm_source=Clipboard_Shot&utm_campaign=DaffaToldo&utm_content=Sparta%20-%20Health%20Tracking%20App&utm_medium=Social_Share&utm_source=Clipboard_Shot&utm_campaign=DaffaToldo&utm_content=Sparta%20-%20Health%20Tracking%20App&utm_medium=Social_Share)
+- [Emotional Analysis](https://dribbble.com/shots/21388211-Emotion-Tracker?utm_source=Clipboard_Shot&utm_campaign=MorethanDT&utm_content=Emotion%20Tracker&utm_medium=Social_Share&utm_source=Clipboard_Shot&utm_campaign=MorethanDT&utm_content=Emotion%20Tracker&utm_medium=Social_Share)
+
+
 ## References
 
 - [Flutter Documentation](https://docs.flutter.dev/)
