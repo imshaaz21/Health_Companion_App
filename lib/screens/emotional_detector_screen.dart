@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:health_companion_app/common/bottom_nav.dart';
 
 class EmotionalDetectorScreen extends StatelessWidget {
   const EmotionalDetectorScreen({super.key});
