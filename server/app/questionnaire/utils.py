@@ -28,12 +28,11 @@ def choose_random_questions(questions, total_questions):
 
 def evaluate_answers(questions, answers):
     results = []
-
-    for answer in answers:
-        question_id = answer['id']
-        response = answer['response']
+    print(f"Answers {answers}")
+    for question_id in answers:
+        print(f"Question ID : {question_id} {type(question_id)}")
+        response = answers[question_id]
         question_found = False
-
         for question in questions:
             if question['id'] == question_id:
                 question_found = True

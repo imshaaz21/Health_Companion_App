@@ -7,7 +7,8 @@ class EmotionalDetectorScreen extends StatefulWidget {
   const EmotionalDetectorScreen({super.key});
 
   @override
-  State<EmotionalDetectorScreen> createState() => _EmotionalDetectorScreenState();
+  State<EmotionalDetectorScreen> createState() =>
+      _EmotionalDetectorScreenState();
 }
 
 class _EmotionalDetectorScreenState extends State<EmotionalDetectorScreen> {
@@ -22,18 +23,12 @@ class _EmotionalDetectorScreenState extends State<EmotionalDetectorScreen> {
 
   Future<List<Question>> _fetchData() async {
     // Replace 'YOUR_API_ENDPOINT' with your actual endpoint
-    final response = await http.get(Uri.parse('http://<localhost-ip>:5000/questionnaire'));
+    final response =
+        await http.get(Uri.parse('http://<localhost-ip>:5000/questionnaire'));
 
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body) as List<dynamic>;
-      // for (var item in jsonData) {
-      //   if (item['id'] is String) { // Check if "id" exists and is a String
-      //     _selectedAnswers[item['id']] = null; // Add entry with id and null value
-      //   }
-      // }
-      print(_selectedAnswers);
       return jsonData.map((data) => Question.fromJson(data)).toList();
-      
     } else {
       throw Exception('Error: ${response.statusCode}');
     }
@@ -45,11 +40,10 @@ class _EmotionalDetectorScreenState extends State<EmotionalDetectorScreen> {
     });
   }
 
-
   String _getEncodedAnswers() {
-    return jsonEncode(_selectedAnswers); // Convert selected answers map to JSON string
+    return jsonEncode(
+        _selectedAnswers); // Convert selected answers map to JSON string
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +62,8 @@ class _EmotionalDetectorScreenState extends State<EmotionalDetectorScreen> {
                 final question = questions[index];
                 return QuestionCard(
                   question: question,
-                  onOptionSelected: (option) => _handleOptionSelection(question.id, option), // Pass callback to handle selection
+                  onOptionSelected: (option) => _handleOptionSelection(
+                      question.id, option), // Pass callback to handle selection
                 );
               },
             );
@@ -83,10 +78,22 @@ class _EmotionalDetectorScreenState extends State<EmotionalDetectorScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
           final encodedAnswers = _getEncodedAnswers();
-          // Use encodedAnswers (JSON string) for further processing or storage
-          print(encodedAnswers); // Example usage
+          print(encodedAnswers);
+          final response = await http.post(
+            Uri.parse('http://<localhost-ip>:5000/questionnaire'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(encodedAnswers),
+          );
+          if (response.statusCode == 200) {
+            print('Answers submitted successfully!');
+            print(jsonDecode(response.body) as List<dynamic>);
+          } else {
+            print('Error submitting answers: ${response.statusCode}');
+          }
         },
         child: const Icon(Icons.check),
       ),
@@ -100,19 +107,25 @@ class Question {
   final String? imageUrl;
   final Map<String, bool> options;
 
-  Question({required this.id, required this.question, this.imageUrl, required this.options});
+  Question(
+      {required this.id,
+      required this.question,
+      this.imageUrl,
+      required this.options});
 
   factory Question.fromJson(Map<String, dynamic> json) => Question(
         id: json['id'] as String,
         question: json['question'] as String,
         imageUrl: json['image_url'] as String?,
-        options: (json['options'] as Map<dynamic, dynamic>).cast<String, bool>(),
+        options:
+            (json['options'] as Map<dynamic, dynamic>).cast<String, bool>(),
       );
 }
 
 class QuestionCard extends StatefulWidget {
   final Question question;
-  final Function(String) onOptionSelected; // Callback to handle option selection
+  final Function(String)
+      onOptionSelected; // Callback to handle option selection
 
   const QuestionCard({required this.question, required this.onOptionSelected});
 
@@ -131,7 +144,8 @@ class _QuestionCardState extends State<QuestionCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.question.question), // Access question using widget.question
+            Text(widget
+                .question.question), // Access question using widget.question
             if (widget.question.imageUrl != null)
               Image.network(widget.question.imageUrl!),
             const SizedBox(height: 10),

@@ -1,4 +1,5 @@
 
+import json
 import uuid
 import os
 
@@ -59,8 +60,10 @@ def handle_questionnaire():
         return jsonify(selected_questions)
     
     elif request.method == "POST":
-        answers = request.get_json()
+        print(request.get_json())
+        answers = json.loads(request.get_json())
         results =  evaluate_answers(questions, answers)
+        print(results)
         return {
             'result' : results.count(False)/len(results)
         }
