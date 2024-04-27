@@ -12,8 +12,10 @@ class SleepMonitorScreen extends StatefulWidget {
 
 class _SleepMonitorScreenState extends State<SleepMonitorScreen> {
   bool _isNear = false;
-  double _proximity = 0;
+  double _proximity = 0.0;
   late StreamSubscription<dynamic> _streamSubscription;
+  DateTime? _sleepStartTime;
+  int _sleepDuration = 0; // in seconds
 
   @override
   void initState() {
@@ -35,25 +37,30 @@ class _SleepMonitorScreenState extends State<SleepMonitorScreen> {
       }
     };
 
-    // --------------------------------------------------------------------
-    // You only need to make this call if you want to turn off the screen.
-    await ProximitySensor.setProximityScreenOff(true)
-        .onError((error, stackTrace) {
-      debugPrint("could not enable screen off functionality");
-      return null;
-    });
-
     _streamSubscription = ProximitySensor.events.listen((int event) {
       debugPrint('Proximity: $event');
       setState(() {
         _isNear = (event > 0) ? true : false;
         _proximity = event.toDouble();
+
+        if (_isNear) {
+          // Start sleep timer if not already sleeping
+          if (_sleepStartTime == null) {
+            _sleepStartTime = DateTime.now();
+          }
+        } else {
+          // Reset sleep timer if person moves away
+          _sleepStartTime = null;
+          _sleepDuration = 0;
+        }
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final minimumSleepDuration = Duration(minutes: 10); // Minimum sleep time
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sleep Monitor'),
@@ -75,13 +82,17 @@ class _SleepMonitorScreenState extends State<SleepMonitorScreen> {
                     'Is Near: $_isNear',
                     style: const TextStyle(fontSize: 24),
                   ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Sleep Duration: ${_sleepDuration > 0 ? Duration(seconds: _sleepDuration) : 'Not Sleeping'}',
+                    style: const TextStyle(fontSize: 24),
+                  ),
                 ],
               ),
             ),
           )
         ],
       ),
-      // bottomNavigationBar: const BottomNavBar(),
     );
   }
 }
