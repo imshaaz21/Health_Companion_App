@@ -82,7 +82,28 @@ class _EmotionalDetectorScreenState extends State<EmotionalDetectorScreen> {
                   return const Center(child: CircularProgressIndicator());
                 },
               )
-            : const Text("Start Quiz ? "),
+            : Stack(
+  children: [
+    // Background image
+    // Image.asset(
+    //   "/home/akshilmy/MobileApps/health_companion_app/lib/assets/questionnaire.jpg", // Replace with your image path
+    //   fit: BoxFit.cover, // Adjust fit as needed
+    //   width: double.infinity,
+    //   height: double.infinity,
+    // ),
+    // Text widget with desired styling
+    const Center(
+      child: Text(
+        "Start Quiz ?",
+        style: TextStyle(
+          fontSize: 50.0, // Adjust font size as desired
+          fontWeight: FontWeight.bold,
+          color: Colors.black, // Adjust text color as desired
+        ),
+      ),
+    ),
+  ],
+),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: Row(
             mainAxisAlignment:
