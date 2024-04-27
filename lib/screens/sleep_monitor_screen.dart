@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'dart:async';
+import 'package:light/light.dart';
 import 'package:proximity_sensor/proximity_sensor.dart';
 
 class SleepMonitorScreen extends StatefulWidget {
@@ -17,10 +18,35 @@ class _SleepMonitorScreenState extends State<SleepMonitorScreen> {
   DateTime? _sleepStartTime;
   int _sleepDuration = 0; // in seconds
 
+  String _luxString = 'Unknown';
+  Light? _light;
+  StreamSubscription? _subscription;
+
+  void onData(int luxValue) async {
+    debugPrint("Lux value: $luxValue");
+    setState(() {
+      _luxString = "$luxValue";
+    });
+  }
+
+  void stopListening() {
+    _subscription?.cancel();
+  }
+
+  void startListeningLight() {
+    _light = Light();
+    try {
+      _subscription = _light?.lightSensorStream.listen(onData);
+    } on LightException catch (exception) {
+      debugPrint(exception.toString());
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     listenSensor();
+    startListeningLight();
   }
 
   @override
@@ -45,9 +71,7 @@ class _SleepMonitorScreenState extends State<SleepMonitorScreen> {
 
         if (_isNear) {
           // Start sleep timer if not already sleeping
-          if (_sleepStartTime == null) {
-            _sleepStartTime = DateTime.now();
-          }
+          _sleepStartTime ??= DateTime.now();
         } else {
           // Reset sleep timer if person moves away
           _sleepStartTime = null;
@@ -85,6 +109,11 @@ class _SleepMonitorScreenState extends State<SleepMonitorScreen> {
                   const SizedBox(height: 20),
                   Text(
                     'Sleep Duration: ${_sleepDuration > 0 ? Duration(seconds: _sleepDuration) : 'Not Sleeping'}',
+                    style: const TextStyle(fontSize: 24),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Lux: $_luxString',
                     style: const TextStyle(fontSize: 24),
                   ),
                 ],
