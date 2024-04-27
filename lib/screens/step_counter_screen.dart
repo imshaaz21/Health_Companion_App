@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+// import 'package:pedometer/pedometer.dart';
 import 'package:health_companion_app/services/pedometer.dart';
 
 class StepCounterScreen extends StatefulWidget {
@@ -21,6 +22,7 @@ class _StepCounterScreenState extends State<StepCounterScreen> {
   @override
   void initState() {
     super.initState();
+    debugPrint('StepCounterScreenState: initState');
     initPlatformState();
   }
 
@@ -114,7 +116,6 @@ class _StepCounterScreenState extends State<StepCounterScreen> {
                   setState(() {
                     _steps = '?';
                     _status = '?';
-                    _stepCountStream.drain();
                   });
                   initPlatformState();
                 },
