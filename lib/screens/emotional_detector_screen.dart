@@ -22,7 +22,7 @@ class _EmotionalDetectorScreenState extends State<EmotionalDetectorScreen> {
 
   Future<List<Question>> _fetchData() async {
     // Replace 'YOUR_API_ENDPOINT' with your actual endpoint
-    final response = await http.get(Uri.parse('http://192.168.38.70:5000/questionnaire'));
+    final response = await http.get(Uri.parse('http://<localhost-ip>:5000/questionnaire'));
 
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body) as List<dynamic>;
