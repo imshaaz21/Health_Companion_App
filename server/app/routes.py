@@ -47,9 +47,46 @@ def analyse_emotion():
     frame_extractor = FrameExtractor(
         os.path.join(UPLOAD_FOLDER, unique_filename))
     temp_dir = frame_extractor.extract_frames(TEMP_FOLDER, fps)
+    i = 1
+    emotions = {
+        'emotion': {
+            'angry': 0.00,
+            'disgust': 0.00,
+            'fear': 0.00,
+            'happy': 0.00,
+            'sad': 0.00,
+            'surprise': 0.00,
+            'neutral': 0.00},
+        'dominant_emotion': 'neutral',
+        'result' : 0.00,
+    }
+    while True:
+            img_path = os.path.join(temp_dir, f"{i:0{4}}.jpg")
+            if not os.path.exists(img_path):
+                break
+            objs = DeepFace.analyze(img_path, actions=['emotion'],enforce_detection=False)[0]
+            temp = objs['emotion']
+            for em in objs['emotion']:
+                temp[em] += objs['emotion'][em]
+            emotions['emotion'] = temp
+            i+=1
+    emotions_dict = {key: value for key, value in emotions['emotion'].items()}
+    total_emotion_value = sum(emotions_dict.values())
 
-    objs = DeepFace.analyze(os.path.join(TEMP_FOLDER,unique_filename,), actions=['emotion'])
-    print(objs)
+    # Calculate emotion percentages
+    emotion_percentages = {key: (value / total_emotion_value) * 100 for key, value in emotions_dict.items()}
+
+    # Find dominant emotion
+    dominant_emotion = max(emotion_percentages, key=emotion_percentages.get)
+    dominant_emotion_percentage = emotion_percentages[dominant_emotion]
+
+    return jsonify(
+        {
+        'emotion': emotion_percentages,
+        'dominant_emotion': dominant_emotion,
+        'dominant_emotion_percentage': dominant_emotion_percentage
+    }
+    )
         
 
 @app.route("/questionnaire", methods=["GET", "POST"])
