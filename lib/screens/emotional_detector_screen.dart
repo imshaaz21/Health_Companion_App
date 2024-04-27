@@ -13,7 +13,10 @@ class EmotionalDetectorScreen extends StatefulWidget {
 
 class _EmotionalDetectorScreenState extends State<EmotionalDetectorScreen> {
   Future<List<Question>>? _data;
-  Map<String, String?> _selectedAnswers = {}; // Map to store question ID and selected answer
+  Map<String, String?> _selectedAnswers =
+      {}; // Map to store question ID and selected answer
+  bool _isQuizStarted = false; // Flag to track quiz start
+  bool _isSubmitted = false;
 
   @override
   void initState() {
@@ -48,56 +51,77 @@ class _EmotionalDetectorScreenState extends State<EmotionalDetectorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Emotional Detector'),
-      ),
-      body: FutureBuilder<List<Question>>(
-        future: _data,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final questions = snapshot.data!;
-            return ListView.builder(
-              itemCount: questions.length,
-              itemBuilder: (context, index) {
-                final question = questions[index];
-                return QuestionCard(
-                  question: question,
-                  onOptionSelected: (option) => _handleOptionSelection(
-                      question.id, option), // Pass callback to handle selection
-                );
-              },
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          }
+        appBar: AppBar(
+          title: const Text('Emotional Detector'),
+        ),
+        body: _isQuizStarted
+            ? FutureBuilder<List<Question>>(
+                future: _data,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData && !_isSubmitted) {
+                    final questions = snapshot.data!;
+                    return ListView.builder(
+                      itemCount: questions.length,
+                      itemBuilder: (context, index) {
+                        final question = questions[index];
+                        return QuestionCard(
+                          question: question,
+                          onOptionSelected: (option) => _handleOptionSelection(
+                              question.id,
+                              option), // Pass callback to handle selection
+                        );
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  }
 
-          // Display a loading indicator while fetching data
-          return const Center(child: CircularProgressIndicator());
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final encodedAnswers = _getEncodedAnswers();
-          print(encodedAnswers);
-          final response = await http.post(
-            Uri.parse('http://<localhost-ip>:5000/questionnaire'),
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-            },
-            body: jsonEncode(encodedAnswers),
-          );
-          if (response.statusCode == 200) {
-            print('Answers submitted successfully!');
-            print(jsonDecode(response.body) as List<dynamic>);
-          } else {
-            print('Error submitting answers: ${response.statusCode}');
-          }
-        },
-        child: const Icon(Icons.check),
-      ),
-    );
+                  // Display a loading indicator while fetching data
+                  return const Center(child: CircularProgressIndicator());
+                },
+              )
+            : const Text("Start Quiz ? "),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        floatingActionButton: Row(
+            mainAxisAlignment:
+                MainAxisAlignment.end, // Align buttons horizontally
+            children: [
+              _isQuizStarted && !_isSubmitted
+                  ? FloatingActionButton(
+                      onPressed: () {
+                        final encodedAnswers = _getEncodedAnswers();
+                        final response = http.post(
+                          Uri.parse('http://<localhost-ip>:5000/questionnaire'),
+                          headers: <String, String>{
+                            'Content-Type': 'application/json; charset=UTF-8',
+                          },
+                          body: jsonEncode(encodedAnswers),
+                        );
+                        setState(() {
+                          _isQuizStarted =
+                              false; 
+                          _isSubmitted = true;
+                        });
+                      },
+                      child: const Icon(Icons.check)
+                    )
+                  : const Text(""),
+              !_isQuizStarted
+                  ? FloatingActionButton(
+                      onPressed: () {
+                        setState(() {
+                          _isQuizStarted =
+                              true; // Set flag to true when Start is pressed
+                        });
+                      },
+                      child: const Icon(Icons.start),
+                      backgroundColor:
+                          _isQuizStarted ? Colors.grey : Colors.blue,
+                    )
+                  : const Text(""),
+            ]));
   }
 }
 
