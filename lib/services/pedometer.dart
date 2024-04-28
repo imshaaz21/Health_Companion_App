@@ -7,9 +7,9 @@ const int _stopped = 0, _walking = 1;
 class Pedometer {
   static const EventChannel _stepDetectionChannel =
       EventChannel('step_detection');
-  static const EventChannel _stepCountChannel = EventChannel('step_count');
+  static EventChannel _stepCountChannel = const EventChannel('step_count');
 
-  static final StreamController<PedestrianStatus> _androidPedestrianController =
+  static StreamController<PedestrianStatus> _androidPedestrianController =
       StreamController.broadcast();
 
   /// Returns one step at a time.
@@ -63,8 +63,6 @@ class Pedometer {
   static Stream<StepCount> get stepCountStream => _stepCountChannel
       .receiveBroadcastStream()
       .map((event) => StepCount._(event));
-
-  // reset the step count
 }
 
 /// A DTO for steps taken containing the number of steps taken.
