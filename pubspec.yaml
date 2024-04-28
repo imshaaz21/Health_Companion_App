@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.6
   pedometer: ^4.0.1
   syncfusion_flutter_charts: ^25.1.41+2
+  provider: ^6.1.2
+  shared_preferences: ^2.2.3
 
 dev_dependencies:
   flutter_test:
