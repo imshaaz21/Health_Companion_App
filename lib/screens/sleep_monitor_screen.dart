@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'dart:async';
-import 'package:light/light.dart';
 import 'package:proximity_sensor/proximity_sensor.dart';
 
 class SleepMonitorScreen extends StatefulWidget {
@@ -16,37 +15,13 @@ class _SleepMonitorScreenState extends State<SleepMonitorScreen> {
   double _proximity = 0.0;
   late StreamSubscription<dynamic> _streamSubscription;
   DateTime? _sleepStartTime;
+  bool _isSleeping = false;
   int _sleepDuration = 0; // in seconds
-
-  String _luxString = 'Unknown';
-  Light? _light;
-  StreamSubscription? _subscription;
-
-  void onData(int luxValue) async {
-    debugPrint("Lux value: $luxValue");
-    setState(() {
-      _luxString = "$luxValue";
-    });
-  }
-
-  void stopListening() {
-    _subscription?.cancel();
-  }
-
-  void startListeningLight() {
-    _light = Light();
-    try {
-      _subscription = _light?.lightSensorStream.listen(onData);
-    } on LightException catch (exception) {
-      debugPrint(exception.toString());
-    }
-  }
 
   @override
   void initState() {
     super.initState();
     listenSensor();
-    startListeningLight();
   }
 
   @override
@@ -63,27 +38,40 @@ class _SleepMonitorScreenState extends State<SleepMonitorScreen> {
       }
     };
 
-    _streamSubscription = ProximitySensor.events.listen((int event) {
-      debugPrint('Proximity: $event');
-      setState(() {
-        _isNear = (event > 0) ? true : false;
-        _proximity = event.toDouble();
-
-        if (_isNear) {
-          // Start sleep timer if not already sleeping
-          _sleepStartTime ??= DateTime.now();
-        } else {
-          // Reset sleep timer if person moves away
-          _sleepStartTime = null;
-          _sleepDuration = 0;
+   _streamSubscription = ProximitySensor.events.listen((int event) {
+  debugPrint('Proximity: $event');
+  setState(() {
+    _proximity = event.toDouble();
+    _isNear = (_proximity > 0);
+    if (_isNear) {
+      // Proximity sensor is near, potentially sleeping
+      if (!_isSleeping) {
+        // Start sleep tracking
+        _sleepStartTime = DateTime.now();
+        _isSleeping = true;
+      } else {
+        // Check if sleep duration is more than one hour
+        if (_sleepStartTime != null &&
+            DateTime.now().difference(_sleepStartTime!) >= Duration(hours: 1)) {
+          // Person is sleeping for more than one hour
+          // Consider it as sleeping
+          // Perform your logic here, for example, show sleep duration
+          Duration sleepDuration = DateTime.now().difference(_sleepStartTime!);
+          debugPrint('Person is sleeping for more than one hour: $sleepDuration');
+          // You can perform any action here, such as showing sleep duration
         }
-      });
-    });
+      }
+    } else {
+      // Proximity sensor is not near, waking up
+      _isSleeping = false;
+      _sleepStartTime = null; // Reset sleep start time
+    }
+  });
+});
   }
 
   @override
-  Widget build(BuildContext context) {
-    final minimumSleepDuration = Duration(minutes: 10); // Minimum sleep time
+  Widget build(BuildContext context) { // Minimum sleep time
 
     return Scaffold(
       appBar: AppBar(
@@ -109,11 +97,6 @@ class _SleepMonitorScreenState extends State<SleepMonitorScreen> {
                   const SizedBox(height: 20),
                   Text(
                     'Sleep Duration: ${_sleepDuration > 0 ? Duration(seconds: _sleepDuration) : 'Not Sleeping'}',
-                    style: const TextStyle(fontSize: 24),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Lux: $_luxString',
                     style: const TextStyle(fontSize: 24),
                   ),
                 ],
