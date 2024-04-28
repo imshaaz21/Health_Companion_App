@@ -1,0 +1,114 @@
+{
+  "questions": [
+    {
+      "id" : "joke2",
+      "question": "Here's a joke. Why did the scarecrow win an award?",
+      "tag" : 1,
+      "options": {
+        "Because he was outstanding in his field!": true,
+        "Because he had a great sense of humor.": true,
+        "I don't find it funny.": false,
+        "I'm rolling on the floor laughing!": true
+      }
+    },
+    {
+      "id" : "joke3",
+      "question": "Here's a joke. What do you call fake spaghetti?",
+      "tag" : 1,
+      "options": {
+        "An impasta!": true,
+        "A noodle impostor.": true,
+        "I don't find it funny.": false,
+        "I can't stop laughing!": true
+      }
+    },
+    {
+      "id" : "joke4",
+      "question": "Here's a joke. Why couldn't the leopard play hide and seek?",
+      "tag" : 1,
+      "options": {
+        "Because he was always spotted!": true,
+        "Because he was too fast.": true,
+        "I don't find it funny.": false,
+        "I'm rolling on the floor laughing!": true
+      }
+    },
+    {
+      "id" : "joke5",
+      "question": "Here's a joke. What do you get when you cross a snowman and a vampire?",
+      "tag" : 1,
+      "options": {
+        "Frostbite!": true,
+        "A chilly Dracula.": true,
+        "I don't find it funny.": false,
+        "I can't stop laughing!": true
+      }
+    },
+    {
+      "id" : "joke6",
+      "question": "Here's a joke. Why did the tomato turn red?",
+      "tag" : 1,
+      "options": {
+        "Because it saw the salad dressing!": true,
+        "Because it was embarrassed.": true,
+        "I don't find it funny.": false,
+        "I'm rolling on the floor laughing!": true
+      }
+    },
+    {
+      "id" : "joke7",
+      "question": "Here's a joke. What did the ocean say to the beach?",
+      "tag" : 1,
+      "options": {
+        "Nothing, it just waved!": true,
+        "Why are you so sandy?": true,
+        "I don't find it funny.": false,
+        "I can't stop laughing!": true
+      }
+    },
+    {
+      "id" : "joke8",
+      "question": "Here's a joke. Why did the golfer bring two pairs of pants?",
+      "tag" : 1,
+      "options": {
+        "In case he got a hole in one!": true,
+        "Because he planned to play all day.": true,
+        "I don't find it funny.": false,
+        "I'm rolling on the floor laughing!": true
+      }
+    },
+    {
+      "id" : "joke9",
+      "question": "Here's a joke. What did one wall say to the other wall?",
+      "tag" : 1,
+      "options": {
+        "I'll meet you at the corner!": true,
+        "Stop staring at me.": true,
+        "I don't find it funny.": false,
+        "I can't stop laughing!": true
+      }
+    },
+    {
+      "id" : "joke10",
+      "question": "Here's a joke. Why don't skeletons fight each other?",
+      "tag" : 1,
+      "options": {
+        "They don't have the guts!": true,
+        "Because they're too fragile.": true,
+        "I don't find it funny.": false,
+        "I'm rolling on the floor laughing!": true
+      }
+    },
+    {
+      "id" : "joke11",
+      "question": "Here's a joke. How do you organize a space party?",
+      "tag" : 1,
+      "options": {
+        "You planet!": true,
+        "By inviting all the stars.": true,
+        "I don't find it funny.": false,
+        "I can't stop laughing!": true
+      }
+    }
+  ]
+}
