@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:health_companion_app/providers/step_counter_provider.dart';
+import 'package:provider/provider.dart';
 
 class StepsCard extends StatefulWidget {
-  final String currentSteps;
   final String status;
   const StepsCard({
     super.key,
-    required this.currentSteps,
     required this.status,
   });
 
@@ -16,8 +16,7 @@ class StepsCard extends StatefulWidget {
 class _StepsCardState extends State<StepsCard> {
   @override
   Widget build(BuildContext context) {
-    int currentSteps = 10000;
-    int totalSteps = 20000;
+    int totalSteps = 10000;
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -41,7 +40,10 @@ class _StepsCardState extends State<StepsCard> {
                     height: 100,
                     width: 100,
                     child: CircularProgressIndicator(
-                      value: int.parse(widget.currentSteps) / totalSteps,
+                      value: Provider.of<StepCounterProvider>(context,
+                                  listen: true)
+                              .todaySteps /
+                          totalSteps,
                       backgroundColor: Colors.grey[300]!,
                       valueColor:
                           const AlwaysStoppedAnimation<Color>(Colors.orange),
@@ -52,7 +54,7 @@ class _StepsCardState extends State<StepsCard> {
                         ? Icons.directions_walk
                         : widget.status == 'stopped'
                             ? Icons.accessibility_new
-                            : Icons.numbers,
+                            : Icons.accessibility_new,
                     size: 60,
                     color: Colors.orange,
                   ),
@@ -73,7 +75,7 @@ class _StepsCardState extends State<StepsCard> {
             ),
             Center(
               child: Text(
-                '${widget.currentSteps} / $totalSteps',
+                '${Provider.of<StepCounterProvider>(context, listen: true).todaySteps} / $totalSteps',
                 style:
                     const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
               ),
