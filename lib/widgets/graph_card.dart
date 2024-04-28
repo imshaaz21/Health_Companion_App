@@ -13,8 +13,7 @@ class HealthChart extends StatefulWidget {
 }
 
 class _HealthChartState extends State<HealthChart> {
-  final List<String> _days = []; // List to store day labels
-
+  final List<String> _days = [];
   @override
   void initState() {
     super.initState();
@@ -39,7 +38,10 @@ class _HealthChartState extends State<HealthChart> {
             children: [
               Text(
                 "Step Count Graph for the past 5 days",
-                style: TextStyle(fontSize: 15, color: Colors.grey[600]),
+                style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.grey[600],
+                    fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               SfCartesianChart(series: <CartesianSeries>[
@@ -54,9 +56,10 @@ class _HealthChartState extends State<HealthChart> {
                   xValueMapper: (StepCountData data, _) => data.dayIndex,
                   yValueMapper: (StepCountData data, _) => data.stepCount,
                   borderRadius: const BorderRadius.all(
-                    Radius.circular(10),
+                    Radius.circular(20),
                   ),
-                  isVisibleInLegend: true,
+                  // isVisibleInLegend: true,
+                  color: Colors.orange,
                 )
               ]),
             ],
