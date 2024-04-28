@@ -43,6 +43,8 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+
+env
 env
 server/temp/
 server/uploads
