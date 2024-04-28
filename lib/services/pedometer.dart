@@ -7,9 +7,9 @@ const int _stopped = 0, _walking = 1;
 class Pedometer {
   static const EventChannel _stepDetectionChannel =
       EventChannel('step_detection');
-  static EventChannel _stepCountChannel = const EventChannel('step_count');
+  static const EventChannel _stepCountChannel = EventChannel('step_count');
 
-  static StreamController<PedestrianStatus> _androidPedestrianController =
+  static final StreamController<PedestrianStatus> _androidPedestrianController =
       StreamController.broadcast();
 
   /// Returns one step at a time.
