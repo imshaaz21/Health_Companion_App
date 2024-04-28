@@ -22,17 +22,18 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: '/', // Set the initial route
-      routes: {
-        '/': (context) => const HomePage(), // Home page
-        '/dashboard': (context) => const DashboardScreen(), // Dashboard screen
-        '/step_counter': (context) =>
-            const StepCounterScreen(), // Step Counter screen
-        '/sleep_monitor': (context) =>
-            const SleepMonitorScreen(), // Sleep Monitor screen
-        '/emotional_detector': (context) =>
-            const EmotionalDetectorScreen(), // Emotional Detector screen
-      },
+      // initialRoute: '/', // Set the initial route
+      // routes: {
+      //   '/': (context) => const HomePage(), // Home page
+      //   '/dashboard': (context) => const DashboardScreen(), // Dashboard screen
+      //   '/step_counter': (context) =>
+      //       const StepCounterScreen(), // Step Counter screen
+      //   '/sleep_monitor': (context) =>
+      //       const SleepMonitorScreen(), // Sleep Monitor screen
+      //   '/emotional_detector': (context) =>
+      //       const EmotionalDetectorScreen(), // Emotional Detector screen
+      // },
+      home: const HomePage(),
     );
   }
 }
