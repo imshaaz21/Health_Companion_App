@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:health_companion_app/models/health_data.dart';
+import 'package:health_companion_app/providers/step_counter_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HealthChart extends StatefulWidget {
@@ -14,9 +16,14 @@ class HealthChart extends StatefulWidget {
 
 class _HealthChartState extends State<HealthChart> {
   final List<String> _days = [];
+
   @override
   void initState() {
     super.initState();
+
+    debugPrint(Provider.of<StepCounterProvider>(context, listen: false)
+        .stepsMap
+        .toString());
 
     // Calculate day labels for the past 5 days (assuming today is Sunday)
     for (int i = 0; i < 5; i++) {
@@ -44,24 +51,27 @@ class _HealthChartState extends State<HealthChart> {
                     fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
-              SfCartesianChart(series: <CartesianSeries>[
-                BarSeries<StepCountData, int>(
-                  dataSource: _days.map((day) {
-                    final dayIndex = _days.indexOf(day);
-                    final stepCount = widget.stepCounts.firstWhere(
-                        (data) => data.dayIndex == dayIndex,
-                        orElse: () => StepCountData(dayIndex, 0));
-                    return stepCount;
-                  }).toList(),
-                  xValueMapper: (StepCountData data, _) => data.dayIndex,
-                  yValueMapper: (StepCountData data, _) => data.stepCount,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(20),
-                  ),
-                  // isVisibleInLegend: true,
-                  color: Colors.orange,
-                )
-              ]),
+              SfCartesianChart(
+                  primaryXAxis: const CategoryAxis(),
+                  series: <CartesianSeries>[
+                    ColumnSeries<StepCountData, int>(
+                      dataSource: _days.map((day) {
+                        final dayIndex = _days.indexOf(day);
+                        final stepCount = widget.stepCounts.firstWhere(
+                            (data) => data.dayIndex == dayIndex,
+                            orElse: () => StepCountData(dayIndex, 0));
+                        return stepCount;
+                      }).toList(),
+                      xValueMapper: (StepCountData data, _) => data.dayIndex,
+                      yValueMapper: (StepCountData data, _) => data.stepCount,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                      // isVisibleInLegend: true,
+                      color: Colors.orange,
+                    )
+                  ]),
             ],
           ),
         ),
