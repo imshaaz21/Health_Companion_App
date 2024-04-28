@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           '/emotional_detector': (context) =>
               const EmotionalDetectorScreen(), // Emotional Detector screen
         },
-        home: const HomePage(),
+        // home: const HomePage(),
       ),
     );
   }
