@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'dart:async';
+import 'package:light/light.dart';
 import 'package:proximity_sensor/proximity_sensor.dart';
 
 class SleepMonitorScreen extends StatefulWidget {
@@ -17,11 +18,35 @@ class _SleepMonitorScreenState extends State<SleepMonitorScreen> {
   DateTime? _sleepStartTime;
   bool _isSleeping = false;
   int _sleepDuration = 0; // in seconds
+  String _luxString = 'Unknown';
+  Light? _light;
+  StreamSubscription? _subscription;
+
+  void onData(int luxValue) async {
+    debugPrint("Lux value: $luxValue");
+    setState(() {
+      _luxString = "$luxValue";
+    });
+  }
+
+  void stopListening() {
+    _subscription?.cancel();
+  }
+
+  void startListeningLight() {
+    _light = Light();
+    try {
+      _subscription = _light?.lightSensorStream.listen(onData);
+    } on LightException catch (exception) {
+      debugPrint(exception.toString());
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     listenSensor();
+    startListeningLight();
   }
 
   @override
@@ -58,6 +83,9 @@ class _SleepMonitorScreenState extends State<SleepMonitorScreen> {
           // Perform your logic here, for example, show sleep duration
           Duration sleepDuration = DateTime.now().difference(_sleepStartTime!);
           debugPrint('Person is sleeping for more than one hour: $sleepDuration');
+          setState(() {
+            _sleepDuration = sleepDuration.inSeconds;
+          });
           // You can perform any action here, such as showing sleep duration
         }
       }
@@ -97,6 +125,11 @@ class _SleepMonitorScreenState extends State<SleepMonitorScreen> {
                   const SizedBox(height: 20),
                   Text(
                     'Sleep Duration: ${_sleepDuration > 0 ? Duration(seconds: _sleepDuration) : 'Not Sleeping'}',
+                    style: const TextStyle(fontSize: 24),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Lux: $_luxString',
                     style: const TextStyle(fontSize: 24),
                   ),
                 ],
