@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:health_companion_app/services/pedometer.dart';
 import 'package:health_companion_app/widgets/calories_card.dart';
 import 'package:health_companion_app/widgets/graph_card.dart';
-import 'package:health_companion_app/widgets/step_count_card.dart';
 import 'package:health_companion_app/widgets/steps_card.dart';
 
 class StepCounterScreen extends StatefulWidget {
@@ -21,7 +20,7 @@ String formatDate(DateTime d) {
 class _StepCounterScreenState extends State<StepCounterScreen> {
   late Stream<StepCount> _stepCountStream;
   late Stream<PedestrianStatus> _pedestrianStatusStream;
-  String _status = '?', _steps = '?';
+  String _status = '?', _steps = '0';
 
   @override
   void initState() {
@@ -73,7 +72,6 @@ class _StepCounterScreenState extends State<StepCounterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const double cardHeight = 300; // Adjust height as needed
     final double cardWidth = MediaQuery.of(context).size.width / 2;
 
     return Scaffold(
@@ -97,9 +95,12 @@ class _StepCounterScreenState extends State<StepCounterScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
-                            height: cardWidth + 35,
+                            height: cardWidth + 50,
                             width: cardWidth,
-                            child: const StepsCard(),
+                            child: StepsCard(
+                              currentSteps: _steps,
+                              status: _status,
+                            ),
                           ),
                         ],
                       ),
@@ -109,7 +110,7 @@ class _StepCounterScreenState extends State<StepCounterScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
-                            height: cardWidth + 35,
+                            height: cardWidth + 50,
                             width: cardWidth,
                             child: const CaloriesCard(),
                           ),
