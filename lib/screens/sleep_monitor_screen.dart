@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' as foundation;
+import 'package:flutter/widgets.dart';
+import 'package:health_companion_app/widgets/sleep_chart.dart';
 import 'dart:async';
 import 'package:light/light.dart';
 import 'package:proximity_sensor/proximity_sensor.dart';
@@ -158,67 +160,99 @@ class Accelerometer extends State<SleepMonitorScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sleep Monitor'),
+        title: const Center(
+            child: Text(
+          'Sleep Monitor',
+          style: TextStyle(fontWeight: FontWeight.w600),
+        )),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Proximity: $_proximity',
-                    style: const TextStyle(fontSize: 24),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Is Near: $_isNear',
-                    style: const TextStyle(fontSize: 24),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Sleep Duration: ${_sleepDuration > 0 ? Duration(seconds: _sleepDuration) : 'Not Sleeping'}',
-                    style: const TextStyle(fontSize: 24),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Lux: $_luxString',
-                    style: const TextStyle(fontSize: 24),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Last sleep Time: $_activity_last_slept_time',
-                    style: const TextStyle(fontSize: 24),
-                  ),
-                  Card(
-                      color: Colors.white,
-                      elevation: 5,
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Builder(builder: (context) {
-                          if (_accelerometerValues.isNotEmpty) {
-                            final AccelerometerEvent event =
-                                _accelerometerValues.first;
-                            return Column(
-                              children: <Widget>[
-                                const Text('Accelerometer:'),
-                                Text('X: ${event.x}'),
-                                Text('Y: ${event.y}'),
-                                Text('Z: ${event.z}'),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Card(
+                  elevation: 5,
+                  surfaceTintColor: _isSleeping ? Colors.black : Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // First Row: Sleeping Icon and Sleeping Duration
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Icon(
+                              _isSleeping
+                                  ? Icons.bedtime // Sleeping icon
+                                  : Icons.wb_sunny, // Not sleeping icon
+                              size: 60,
+                              color: Colors.orange,
+                            ),
+                            const SizedBox(width: 10),
+                            // Column for Sleeping Duration
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  _isSleeping
+                                      ? 'Sleeping Duration:'
+                                      : 'Not Sleeping',
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.grey[600]),
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  _isSleeping
+                                      ? '${Duration(seconds: _sleepDuration)}'
+                                      : '',
+                                  style: const TextStyle(fontSize: 16),
+                                ),
                               ],
-                            );
-                          } else {
-                            return const Text('No data');
-                          }
-                        }),
-                      ))
-                ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        // // Second Row: Sleeping Status
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'Sleeping Status:',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              _isSleeping ? 'Sleeping' : 'Not Sleeping',
+                              style: const TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        // // Last sleep Time
+                        Text(
+                          'Last sleep Time: $_activity_last_slept_time',
+                          style:
+                              TextStyle(fontSize: 16, color: Colors.grey[600]),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
-          )
-        ],
+              const SizedBox(height: 20),
+              const Card(
+                elevation: 5,
+                surfaceTintColor: Colors.white,
+                child: SleepChart(),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
