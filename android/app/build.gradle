@@ -65,3 +65,9 @@ flutter {
 }
 
 dependencies {}
+
+android {                                                                    
+   defaultConfig {                                                            
+     minSdkVersion 21                                                         
+   }                                                                          
+ }  
