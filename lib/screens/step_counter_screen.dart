@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:health_companion_app/models/health_data.dart';
 import 'dart:async';
-// import 'package:pedometer/pedometer.dart';
 import 'package:health_companion_app/services/pedometer.dart';
+import 'package:health_companion_app/widgets/calories_card.dart';
+import 'package:health_companion_app/widgets/graph_card.dart';
+import 'package:health_companion_app/widgets/step_count_card.dart';
+import 'package:health_companion_app/widgets/steps_card.dart';
 
 class StepCounterScreen extends StatefulWidget {
   const StepCounterScreen({super.key});
@@ -27,7 +31,7 @@ class _StepCounterScreenState extends State<StepCounterScreen> {
   }
 
   void onStepCount(StepCount event) {
-    debugPrint(event.toString());
+    debugPrint('"Event" : $event');
     setState(() {
       _steps = event.steps.toString();
     });
@@ -69,66 +73,67 @@ class _StepCounterScreenState extends State<StepCounterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const double cardHeight = 300; // Adjust height as needed
+    final double cardWidth = MediaQuery.of(context).size.width / 2;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Step Counter'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Steps Taken',
-              style: TextStyle(fontSize: 30),
-            ),
-            Text(
-              _steps,
-              style: const TextStyle(fontSize: 60),
-            ),
-            const Divider(
-              height: 100,
-              thickness: 0,
-              color: Colors.white,
-            ),
-            const Text(
-              'Pedestrian Status',
-              style: TextStyle(fontSize: 30),
-            ),
-            Icon(
-              _status == 'walking'
-                  ? Icons.directions_walk
-                  : _status == 'stopped'
-                      ? Icons.accessibility_new
-                      : Icons.error,
-              size: 100,
-            ),
-            Center(
-              child: Text(
-                _status,
-                style: _status == 'walking' || _status == 'stopped'
-                    ? const TextStyle(fontSize: 30)
-                    : const TextStyle(fontSize: 20, color: Colors.red),
-              ),
-            ),
-            Center(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _steps = '?';
-                    _status = '?';
-                  });
-                  initPlatformState();
-                },
-                child: const Text(
-                  'Reset',
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.blue,
-                      decoration: TextDecoration.underline),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.only(top: 10),
+            child: ListView(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: cardWidth + 35,
+                            width: cardWidth,
+                            child: const StepsCard(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: cardWidth + 35,
+                            width: cardWidth,
+                            child: const CaloriesCard(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ),
+                SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: HealthChart(stepCounts: [
+                      StepCountData(0, 1000),
+                      StepCountData(1, 2000),
+                      StepCountData(2, 3000),
+                      StepCountData(3, 4000),
+                      StepCountData(4, 5000),
+                    ]),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
