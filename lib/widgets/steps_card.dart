@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
 
-class StepsCard extends StatelessWidget {
-  const StepsCard({super.key});
+class StepsCard extends StatefulWidget {
+  final String currentSteps;
+  final String status;
+  const StepsCard({
+    super.key,
+    required this.currentSteps,
+    required this.status,
+  });
 
+  @override
+  State<StepsCard> createState() => _StepsCardState();
+}
+
+class _StepsCardState extends State<StepsCard> {
   @override
   Widget build(BuildContext context) {
     int currentSteps = 10000;
@@ -30,24 +41,39 @@ class StepsCard extends StatelessWidget {
                     height: 100,
                     width: 100,
                     child: CircularProgressIndicator(
-                      value: currentSteps / totalSteps,
+                      value: int.parse(widget.currentSteps) / totalSteps,
                       backgroundColor: Colors.grey[300]!,
                       valueColor:
                           const AlwaysStoppedAnimation<Color>(Colors.orange),
                     ),
                   ),
-                  const Icon(
-                    Icons.directions_walk,
+                  Icon(
+                    widget.status == 'walking'
+                        ? Icons.directions_walk
+                        : widget.status == 'stopped'
+                            ? Icons.accessibility_new
+                            : Icons.numbers,
                     size: 60,
                     color: Colors.orange,
                   ),
+                  // print status
                 ],
               ),
             ),
             const SizedBox(height: 10),
             Center(
               child: Text(
-                '$currentSteps / $totalSteps',
+                widget.status,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Center(
+              child: Text(
+                '${widget.currentSteps} / $totalSteps',
                 style:
                     const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
               ),
