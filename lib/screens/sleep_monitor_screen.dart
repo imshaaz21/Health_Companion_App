@@ -77,7 +77,7 @@ class _SleepMonitorScreenState extends State<SleepMonitorScreen> {
       } else {
         // Check if sleep duration is more than one hour
         if (_sleepStartTime != null &&
-            DateTime.now().difference(_sleepStartTime!) >= Duration(hours: 1)) {
+            DateTime.now().difference(_sleepStartTime!) >= Duration(seconds: 10)) {
           // Person is sleeping for more than one hour
           // Consider it as sleeping
           // Perform your logic here, for example, show sleep duration
