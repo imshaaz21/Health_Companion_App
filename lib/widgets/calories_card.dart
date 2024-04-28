@@ -19,7 +19,7 @@ class CaloriesCard extends StatelessWidget {
               'Calories',
               style: TextStyle(fontSize: 18, color: Colors.grey[600]),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 15),
             Center(
               child: Column(
                 children: [
@@ -28,11 +28,11 @@ class CaloriesCard extends StatelessWidget {
                     color: Colors.orange,
                     size: 60,
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(height: 10),
                   Text(
-                    '$caloriesBurned',
+                    '$caloriesBurned kcal',
                     style: const TextStyle(
-                        fontSize: 32, fontWeight: FontWeight.bold),
+                        fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
