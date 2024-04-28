@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:health_companion_app/providers/step_counter_provider.dart';
+import 'package:provider/provider.dart';
 
 class CaloriesCard extends StatelessWidget {
   const CaloriesCard({super.key});
@@ -19,7 +21,7 @@ class CaloriesCard extends StatelessWidget {
               'Calories',
               style: TextStyle(fontSize: 18, color: Colors.grey[600]),
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 25),
             Center(
               child: Column(
                 children: [
@@ -28,9 +30,9 @@ class CaloriesCard extends StatelessWidget {
                     color: Colors.orange,
                     size: 60,
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   Text(
-                    '$caloriesBurned kcal',
+                    "${Provider.of<StepCounterProvider>(context, listen: true).todayCaloriesBurnt.toStringAsFixed(2)} kcal",
                     style: const TextStyle(
                         fontSize: 24, fontWeight: FontWeight.bold),
                   ),

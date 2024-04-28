@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:health_companion_app/models/health_data.dart';
+import 'package:health_companion_app/providers/step_counter_provider.dart';
 import 'dart:async';
 import 'package:health_companion_app/services/pedometer.dart';
+import 'package:health_companion_app/utils/utils.dart';
 import 'package:health_companion_app/widgets/calories_card.dart';
 import 'package:health_companion_app/widgets/graph_card.dart';
 import 'package:health_companion_app/widgets/steps_card.dart';
+import 'package:provider/provider.dart';
 
 class StepCounterScreen extends StatefulWidget {
   const StepCounterScreen({super.key});
@@ -20,7 +23,7 @@ String formatDate(DateTime d) {
 class _StepCounterScreenState extends State<StepCounterScreen> {
   late Stream<StepCount> _stepCountStream;
   late Stream<PedestrianStatus> _pedestrianStatusStream;
-  String _status = '?', _steps = '0';
+  String _status = 'stopped', _steps = '0';
 
   @override
   void initState() {
@@ -31,6 +34,10 @@ class _StepCounterScreenState extends State<StepCounterScreen> {
 
   void onStepCount(StepCount event) {
     debugPrint('"Event" : $event');
+    Provider.of<StepCounterProvider>(context, listen: false).addSteps(
+      formatDateForProvider(DateTime.now()),
+      int.parse(event.steps.toString()),
+    );
     setState(() {
       _steps = event.steps.toString();
     });
@@ -48,7 +55,6 @@ class _StepCounterScreenState extends State<StepCounterScreen> {
     setState(() {
       _status = 'Pedestrian Status not available';
     });
-    debugPrint(_status);
   }
 
   void onStepCountError(error) {
@@ -98,7 +104,6 @@ class _StepCounterScreenState extends State<StepCounterScreen> {
                             height: cardWidth + 50,
                             width: cardWidth,
                             child: StepsCard(
-                              currentSteps: _steps,
                               status: _status,
                             ),
                           ),
