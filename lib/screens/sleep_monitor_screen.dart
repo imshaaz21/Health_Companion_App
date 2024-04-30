@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/widgets.dart';
+import 'package:health_companion_app/providers/sleep_monitor_provider.dart';
+import 'package:health_companion_app/utils/utils.dart';
 import 'package:health_companion_app/widgets/sleep_chart.dart';
 import 'dart:async';
 import 'package:light/light.dart';
+import 'package:provider/provider.dart';
 import 'package:proximity_sensor/proximity_sensor.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
@@ -32,7 +35,9 @@ class Accelerometer extends State<SleepMonitorScreen> {
   late StreamSubscription<AccelerometerEvent> _accelerometerSubscription;
 
   void onData(int luxValue) async {
-    debugPrint("Lux value: $luxValue");
+    // debugPrint("Lux value: $luxValue");
+    Provider.of<SleepMonitorProvider>(context, listen: false)
+        .updateLuxValue(luxValue.toDouble());
     setState(() {
       _luxString = "$luxValue";
     });
@@ -58,7 +63,7 @@ class Accelerometer extends State<SleepMonitorScreen> {
     startListeningLight();
 
     _accelerometerSubscription =
-        accelerometerEvents.listen((AccelerometerEvent event) {
+        accelerometerEventStream().listen((AccelerometerEvent event) {
       double totalAcceleration = event.y.abs();
       if (totalAcceleration > _activityThreshold) {
         // Movement detected, potentially not sleeping
@@ -70,6 +75,11 @@ class Accelerometer extends State<SleepMonitorScreen> {
             _sleepStartTime = null;
             if (_sleepDuration > 10) {
               _activity_last_slept_time = Duration(seconds: _sleepDuration);
+              Provider.of<SleepMonitorProvider>(context, listen: false)
+                  .addSleepData(_sleepDuration.toDouble());
+              Provider.of<SleepMonitorProvider>(context, listen: false)
+                  .updateSleepDuration(
+                      formatDuration(_activity_last_slept_time));
             }
             _sleepDuration = 0;
           });
@@ -105,6 +115,7 @@ class Accelerometer extends State<SleepMonitorScreen> {
     super.dispose();
     _streamSubscription.cancel();
     _accelerometerSubscription.cancel();
+    _subscription?.cancel();
   }
 
   Future<void> listenSensor() async {
@@ -175,7 +186,8 @@ class Accelerometer extends State<SleepMonitorScreen> {
                 padding: const EdgeInsets.all(20.0),
                 child: Card(
                   elevation: 5,
-                  surfaceTintColor: _isSleeping ? Colors.black : Colors.white,
+                  surfaceTintColor:
+                      _sleepDuration > 10 ? Colors.black : Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
@@ -186,7 +198,7 @@ class Accelerometer extends State<SleepMonitorScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Icon(
-                              _isSleeping
+                              _sleepDuration > 10
                                   ? Icons.bedtime // Sleeping icon
                                   : Icons.wb_sunny, // Not sleeping icon
                               size: 60,
@@ -198,7 +210,7 @@ class Accelerometer extends State<SleepMonitorScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  _isSleeping
+                                  _sleepDuration > 10
                                       ? 'Sleeping Duration:'
                                       : 'Not Sleeping',
                                   style: TextStyle(
@@ -206,8 +218,9 @@ class Accelerometer extends State<SleepMonitorScreen> {
                                 ),
                                 const SizedBox(height: 5),
                                 Text(
-                                  _isSleeping
-                                      ? '${Duration(seconds: _sleepDuration)}'
+                                  _sleepDuration > 10
+                                      ? formatDuration(
+                                          Duration(seconds: _sleepDuration))
                                       : '',
                                   style: const TextStyle(fontSize: 16),
                                 ),
@@ -226,7 +239,7 @@ class Accelerometer extends State<SleepMonitorScreen> {
                             ),
                             const SizedBox(width: 10),
                             Text(
-                              _isSleeping ? 'Sleeping' : 'Not Sleeping',
+                              _sleepDuration > 10 ? 'Sleeping' : 'Not Sleeping',
                               style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
@@ -235,9 +248,9 @@ class Accelerometer extends State<SleepMonitorScreen> {
                         const SizedBox(height: 20),
                         // // Last sleep Time
                         Text(
-                          'Last sleep Time: $_activity_last_slept_time',
+                          'Last sleep Time: ${formatDuration(_activity_last_slept_time)}',
                           style:
-                              TextStyle(fontSize: 16, color: Colors.grey[600]),
+                              TextStyle(fontSize: 14, color: Colors.grey[600]),
                         ),
                       ],
                     ),
