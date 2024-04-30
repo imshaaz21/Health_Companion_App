@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:health_companion_app/providers/sleep_monitor_provider.dart';
 import 'package:health_companion_app/providers/step_counter_provider.dart';
 import 'package:health_companion_app/screens/dashboard_screen.dart';
 import 'package:health_companion_app/screens/emotional_detector_screen.dart';
@@ -17,8 +18,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => StepCounterProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => StepCounterProvider()),
+        ChangeNotifierProvider(create: (context) => SleepMonitorProvider()),
+      ],
       child: MaterialApp(
         title: 'ActiveAware',
         debugShowCheckedModeBanner: false,
@@ -26,19 +30,14 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        initialRoute: '/', // Set the initial route
+        initialRoute: '/',
         routes: {
-          '/': (context) => const HomePage(), // Home page
-          '/dashboard': (context) =>
-              const DashboardScreen(), // Dashboard screen
-          '/step_counter': (context) =>
-              const StepCounterScreen(), // Step Counter screen
-          '/sleep_monitor': (context) =>
-              const SleepMonitorScreen(), // Sleep Monitor screen
-          '/emotional_detector': (context) =>
-              const EmotionalDetectorScreen(), // Emotional Detector screen
+          '/': (context) => const HomePage(),
+          '/dashboard': (context) => const DashboardScreen(),
+          '/step_counter': (context) => const StepCounterScreen(),
+          '/sleep_monitor': (context) => const SleepMonitorScreen(),
+          '/emotional_detector': (context) => const EmotionalDetectorScreen(),
         },
-        // home: const HomePage(),
       ),
     );
   }
