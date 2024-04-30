@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' as foundation;
-import 'package:flutter/widgets.dart';
 import 'package:health_companion_app/providers/sleep_monitor_provider.dart';
 import 'package:health_companion_app/utils/utils.dart';
 import 'package:health_companion_app/widgets/sleep_chart.dart';
 import 'dart:async';
-import 'package:light/light.dart';
+// import 'package:light/light.dart';
 import 'package:provider/provider.dart';
 import 'package:proximity_sensor/proximity_sensor.dart';
 import 'package:sensors_plus/sensors_plus.dart';
@@ -24,43 +23,43 @@ class Accelerometer extends State<SleepMonitorScreen> {
   DateTime? _sleepStartTime;
   bool _isSleeping = false;
   int _sleepDuration = 0; // in seconds
-  String _luxString = 'Unknown';
-  Light? _light;
+  // String _luxString = 'Unknown';
+  // Light? _light;
   StreamSubscription? _subscription;
   double _activityThreshold = 0.5;
-  Duration _activity_last_slept_time = Duration(seconds: 0);
+  Duration _activity_last_slept_time = const Duration(seconds: 0);
 
   // Accelerometer  subscription
   List<AccelerometerEvent> _accelerometerValues = [];
   late StreamSubscription<AccelerometerEvent> _accelerometerSubscription;
 
-  void onData(int luxValue) async {
-    // debugPrint("Lux value: $luxValue");
-    Provider.of<SleepMonitorProvider>(context, listen: false)
-        .updateLuxValue(luxValue.toDouble());
-    setState(() {
-      _luxString = "$luxValue";
-    });
-  }
+  // void onData(int luxValue) async {
+  //   // debugPrint("Lux value: $luxValue");
+  //   Provider.of<SleepMonitorProvider>(context, listen: false)
+  //       .updateLuxValue(luxValue.toDouble());
+  //   setState(() {
+  //     _luxString = "$luxValue";
+  //   });
+  // }
 
-  void stopListening() {
-    _subscription?.cancel();
-  }
+  // void stopListening() {
+  //   _subscription?.cancel();
+  // }
 
-  void startListeningLight() {
-    _light = Light();
-    try {
-      _subscription = _light?.lightSensorStream.listen(onData);
-    } on LightException catch (exception) {
-      debugPrint(exception.toString());
-    }
-  }
+  // void startListeningLight() {
+  //   _light = Light();
+  //   try {
+  //     _subscription = _light?.lightSensorStream.listen(onData);
+  //   } on LightException catch (exception) {
+  //     debugPrint(exception.toString());
+  //   }
+  // }
 
   @override
   void initState() {
     super.initState();
     listenSensor();
-    startListeningLight();
+    // startListeningLight();
 
     _accelerometerSubscription =
         accelerometerEventStream().listen((AccelerometerEvent event) {
@@ -248,7 +247,7 @@ class Accelerometer extends State<SleepMonitorScreen> {
                         const SizedBox(height: 20),
                         // // Last sleep Time
                         Text(
-                          'Last sleep Time: ${formatDuration(_activity_last_slept_time)}',
+                          'Last sleep Time: ${Provider.of<SleepMonitorProvider>(context, listen: true).sleepDuration}',
                           style:
                               TextStyle(fontSize: 14, color: Colors.grey[600]),
                         ),
