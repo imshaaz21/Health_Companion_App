@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream
-=======
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/widgets.dart';
 import 'package:health_companion_app/providers/sleep_monitor_provider.dart';
@@ -11,14 +9,11 @@ import 'package:light/light.dart';
 import 'package:provider/provider.dart';
 import 'package:proximity_sensor/proximity_sensor.dart';
 import 'package:sensors_plus/sensors_plus.dart';
->>>>>>> Stashed changes
 
-class SleepMonitorScreen extends StatelessWidget {
+class SleepMonitorScreen extends StatefulWidget {
   const SleepMonitorScreen({super.key});
 
   @override
-<<<<<<< Updated upstream
-=======
   State<SleepMonitorScreen> createState() => Accelerometer();
 }
 
@@ -170,23 +165,18 @@ class Accelerometer extends State<SleepMonitorScreen> {
   }
 
   @override
->>>>>>> Stashed changes
   Widget build(BuildContext context) {
+    // Minimum sleep time
+    debugPrint(_accelerometerValues.toString());
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sleep Monitor'),
+        title: const Center(
+            child: Text(
+          'Sleep Monitor',
+          style: TextStyle(fontWeight: FontWeight.w600),
+        )),
       ),
-<<<<<<< Updated upstream
-      body: const Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: Center(
-              child: Text('Sleep Monitor Screen'),
-            ),
-          )
-        ],
-=======
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -276,9 +266,7 @@ class Accelerometer extends State<SleepMonitorScreen> {
             ],
           ),
         ),
->>>>>>> Stashed changes
       ),
-      // bottomNavigationBar: const BottomNavBar(),
     );
   }
 }

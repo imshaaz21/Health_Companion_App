@@ -61,6 +61,7 @@ class StepCounterProvider with ChangeNotifier {
       }
     }
     _saveStepsMap();
+    _stepsMap[date] = steps;
     notifyListeners();
   }
 

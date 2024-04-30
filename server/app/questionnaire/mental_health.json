@@ -1,0 +1,91 @@
+{
+  "questions": [
+    {
+      "id" : "health0",
+      "question": "How often have you felt down, depressed, or hopeless in the past two weeks?",
+      "tag" : 2,
+      "options": {
+        "Not at all": true,
+        "Several days": false,
+        "More than half the days": false,
+        "Nearly every day": false
+      }
+    },
+    {
+      "id" : "health1",
+      "question": "How often have you felt little interest or pleasure in doing things in the past two weeks?",
+      "tag" : 2,
+      "options": {
+        "Not at all": true,
+        "Several days": false,
+        "More than half the days": false,
+        "Nearly every day": false
+      }
+    },
+    {
+      "id" : "health2",
+      "question": "Have you experienced any changes in your appetite or weight recently?",
+      "tag" : 2,
+      "options": {
+        "No changes": true,
+        "Decreased appetite or weight loss": false,
+        "Increased appetite or weight gain": false
+      }
+    },
+    {
+      "id" : "health3",
+      "question": "How often have you had trouble falling asleep, staying asleep, or sleeping too much?",
+      "tag" : 2,
+      "options": {
+        "Not at all": true,
+        "Several days": false,
+        "More than half the days": false,
+        "Nearly every day": false
+      }
+    },
+    {
+      "id" : "health4",
+      "question": "Do you often feel tired or have low energy?",
+      "tag" : 2,
+      "options": {
+        "Not at all": true,
+        "Several days": false,
+        "More than half the days": false,
+        "Nearly every day": false
+      }
+    },
+    {
+      "id" : "health5",
+      "question": "How often do you feel worthless or guilty?",
+      "tag" : 2,
+      "options": {
+        "Not at all": true,
+        "Several days": false,
+        "More than half the days": false,
+        "Nearly every day": false
+      }
+    },
+    {
+      "id" : "health6",
+      "question": "Have you had difficulty concentrating, making decisions, or remembering things?",
+      "tag" : 2,
+      "options": {
+        "Not at all": true,
+        "Several days": false,
+        "More than half the days": false,
+        "Nearly every day": false
+      }
+    },
+    {
+      "id" : "health7",
+      "question": "Have you had thoughts of harming yourself or thoughts of suicide?",
+      "tag" : 2,
+      "options": {
+        "Never": true,
+        "Rarely": false,
+        "Sometimes": false,
+        "Often": false
+      }
+    }
+  ]
+}
