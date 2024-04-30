@@ -16,7 +16,7 @@ class StepCounterProvider with ChangeNotifier {
   };
 
   StepCounterProvider() {
-    // _loadStepsMap();
+    _loadStepsMap();
   }
 
   Future<void> _loadStepsMap() async {
@@ -36,8 +36,32 @@ class StepCounterProvider with ChangeNotifier {
   Map<String, int> get stepsMap => _stepsMap;
 
   void addSteps(String date, int steps) {
+    // final today = DateTime.now().add(const Duration(days: 2));
+    final formattedToday = formatDateForProvider(DateTime.parse(date));
+
+    if (_stepsMap.containsKey(formattedToday)) {
+      debugPrint('Steps map: $_stepsMap');
+      _stepsMap[formattedToday] = steps;
+    } else {
+      debugPrint('Steps map: $_stepsMap');
+      final List<DateTime> sortedKeys = _stepsMap.keys
+          .map((dateString) => DateTime.parse(dateString))
+          .toList()
+        ..sort((a, b) => b.compareTo(a));
+      debugPrint('Sorted keys: $sortedKeys');
+
+      if (sortedKeys.isNotEmpty) {
+        final previousDate = sortedKeys.first;
+        final previousDateSteps =
+            _stepsMap[formatDateForProvider(previousDate)] ?? 0;
+        final difference = steps - int.parse(previousDateSteps.toString());
+        _stepsMap[formattedToday] = difference;
+      } else {
+        _stepsMap[formattedToday] = steps;
+      }
+    }
+    _saveStepsMap();
     _stepsMap[date] = steps;
-    // _saveStepsMap();
     notifyListeners();
   }
 
