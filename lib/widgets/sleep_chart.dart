@@ -37,10 +37,6 @@ class _SleepChartState extends State<SleepChart> {
     return Center(
       child: Column(
         children: [
-          const SizedBox(height: 20),
-    return Center(
-      child: Column(
-        children: [
           const SizedBox(height: 5),
           Text(
             'Sleep Chart for last 5 days',
@@ -58,7 +54,6 @@ class _SleepChartState extends State<SleepChart> {
               title: AxisTitle(text: 'Hours'),
             ),
 
-            primaryXAxis: const CategoryAxis(),
             // primaryYAxis:
             //     const NumericAxis(minimum: 0, maximum: 10, interval: 10),
             tooltipBehavior: _tooltip,
@@ -69,9 +64,6 @@ class _SleepChartState extends State<SleepChart> {
                     .toList(),
                 xValueMapper: (SleepData sleep, _) => sleep.x,
                 yValueMapper: (SleepData sleep, _) => sleep.y / 3600,
-                dataSource: data,
-                xValueMapper: (SleepData sleep, _) => sleep.x,
-                yValueMapper: (SleepData sleep, _) => sleep.y,
                 name: 'Sleep hours',
                 // dataLabelSettings: const DataLabelSettings(
                 //   isVisible: true,
