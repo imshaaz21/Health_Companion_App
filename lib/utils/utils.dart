@@ -2,7 +2,6 @@ String formatDate(DateTime d) {
   return d.toString().substring(0, 19);
 }
 
-
 String formatDateForProvider(DateTime d) {
   String formattedMonth = d.month < 10 ? '0${d.month}' : '${d.month}';
   String formattedDay = d.day < 10 ? '0${d.day}' : '${d.day}';
@@ -36,3 +35,4 @@ String getWeekDayAbbreviation(int weekDay) {
     default:
       return '';
   }
+}
