@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:health_companion_app/providers/sleep_monitor_provider.dart';
 import 'package:health_companion_app/providers/step_counter_provider.dart';
+import 'package:health_companion_app/utils/utils.dart';
+import 'package:light/light.dart';
 import 'package:provider/provider.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -11,6 +15,45 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  String _luxString = 'Unknown';
+  double _luxValue = 0;
+  Light? _light;
+  StreamSubscription? _subscription;
+
+  void onData(int luxValue) async {
+    // debugPrint("Lux value: $luxValue $_luxString");
+    setState(() {
+      _luxString = getLightCondition(luxValue.toDouble());
+      _luxValue = luxValue.toDouble();
+    });
+  }
+
+  void stopListening() {
+    _subscription?.cancel();
+  }
+
+  void startListening() {
+    _light = Light();
+    try {
+      _subscription = _light?.lightSensorStream.listen(onData);
+    } on LightException catch (exception) {
+      debugPrint(exception.toString());
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    startListening();
+  }
+
+  // dispose method to cancel the subscription
+  @override
+  void dispose() {
+    super.dispose();
+    stopListening();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,11 +164,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Center(
                       child: ListTile(
                         title: const Text('Light Condition'),
-                        subtitle: Text(
-                            '${Provider.of<SleepMonitorProvider>(context, listen: true).lightCondition}: ${Provider.of<SleepMonitorProvider>(context, listen: true).luxValue.toInt()} lux'),
-                        trailing: const Icon(
-                          Icons.lightbulb_outline_rounded,
-                          color: Colors.orange,
+                        // subtitle: Text(
+                        //     '${Provider.of<SleepMonitorProvider>(context, listen: true).lightCondition}: ${Provider.of<SleepMonitorProvider>(context, listen: true).luxValue.toInt()} lux'),
+                        subtitle: Text('$_luxString : $_luxValue lux'),
+                        trailing: Icon(
+                          Icons.lightbulb,
+                          color:
+                              _luxValue < 20 ? Colors.redAccent : Colors.green,
                           size: 40,
                         ),
                       ),
