@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:health_companion_app/providers/emotional_detector_provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:provider/provider.dart';
 
 class EmotionalDetectorScreen extends StatefulWidget {
   const EmotionalDetectorScreen({super.key});
@@ -26,11 +29,12 @@ class _EmotionalDetectorScreenState extends State<EmotionalDetectorScreen> {
 
   Future<List<Question>> _fetchData() async {
     // Replace 'YOUR_API_ENDPOINT' with your actual endpoint
-    final response =
-        await http.get(Uri.parse('http://<localhost-ip>:5000/questionnaire'));
+    final response = await http.get(Uri.parse(
+        'https://ac44-2402-4000-b138-4190-885a-88c2-bad6-9f92.ngrok-free.app/questionnaire'));
 
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body) as List<dynamic>;
+      debugPrint(jsonData.toString());
       return jsonData.map((data) => Question.fromJson(data)).toList();
     } else {
       throw Exception('Error: ${response.statusCode}');
@@ -111,15 +115,40 @@ class _EmotionalDetectorScreenState extends State<EmotionalDetectorScreen> {
             children: [
               _isQuizStarted && !_isSubmitted
                   ? FloatingActionButton(
-                      onPressed: () {
+                      onPressed: () async {
                         final encodedAnswers = _getEncodedAnswers();
-                        final response = http.post(
-                          Uri.parse('http://<localhost-ip>:5000/questionnaire'),
-                          headers: <String, String>{
-                            'Content-Type': 'application/json; charset=UTF-8',
-                          },
-                          body: jsonEncode(encodedAnswers),
-                        );
+
+                        try {
+                          final response = await http.post(
+                            Uri.parse(
+                                'https://ac44-2402-4000-b138-4190-885a-88c2-bad6-9f92.ngrok-free.app/questionnaire'),
+                            headers: <String, String>{
+                              'Content-Type': 'application/json; charset=UTF-8',
+                            },
+                            body: jsonEncode(encodedAnswers),
+                          );
+
+                          if (response.statusCode == 200) {
+                            final jsonResponse = jsonDecode(response.body);
+
+                            final result = jsonResponse['result'];
+
+                            debugPrint("Result: $result");
+                            // ignore: use_build_context_synchronously
+                            Provider.of<EmotionalDetectorProvider>(context,
+                                    listen: false)
+                                .addTestResult(result.toString());
+                          } else {
+                            // Handle other status codes if needed
+                            debugPrint(
+                                "Request failed with status: ${response.statusCode}");
+                          }
+                          // Handle the response here, if needed
+                        } catch (e) {
+                          debugPrint("Error: $e");
+                          // Handle any errors that occurred during the HTTP request
+                        }
+
                         setState(() {
                           _isQuizStarted = false;
                           _isSubmitted = true;
