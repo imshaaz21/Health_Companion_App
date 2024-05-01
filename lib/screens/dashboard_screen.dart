@@ -140,7 +140,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             Text(
                                 'Last Test Result: ${Provider.of<EmotionalDetectorProvider>(context, listen: true).getLatestMood()}'),
                             Text(
-                              'You last test was on ${Provider.of<EmotionalDetectorProvider>(context, listen: true).getLatestTestDate()} \nScore was ${Provider.of<EmotionalDetectorProvider>(context, listen: true).getLatestTestScore()}',
+                              'You last test was on ${Provider.of<EmotionalDetectorProvider>(context, listen: true).getLatestTestDate()} \nScore was ${Provider.of<EmotionalDetectorProvider>(context, listen: true).getLatestTestScore().toStringAsFixed(1)} %',
                               style: const TextStyle(fontSize: 12),
                             ),
                           ],

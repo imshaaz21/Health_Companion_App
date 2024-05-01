@@ -8,12 +8,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 class StepCounterProvider with ChangeNotifier {
   // make a map to store the last 5 days steps,
   // the key is the date-time and the value is the steps
-  final Map<String, int> _stepsMap = {
-    '2024-04-24': 400,
-    '2024-04-25': 400,
-    '2024-04-26': 400,
-    '2024-04-27': 200
-  };
+  final Map<String, int> _stepsMap = {};
+
+  // last step count
+  int lastStepCount = 0;
 
   StepCounterProvider() {
     _loadStepsMap();
@@ -88,7 +86,6 @@ class StepCounterProvider with ChangeNotifier {
     return steps;
   }
 
-  // return a list of StepCountData for the last 5 days
   List<StepCountData> get last5DaysStepCountData {
     final List<StepCountData> data = [];
     // todays index
