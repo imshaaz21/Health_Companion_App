@@ -30,7 +30,7 @@ class _EmotionalDetectorScreenState extends State<EmotionalDetectorScreen> {
   Future<List<Question>> _fetchData() async {
     // Replace 'YOUR_API_ENDPOINT' with your actual endpoint
     final response = await http.get(Uri.parse(
-        'https://ac44-2402-4000-b138-4190-885a-88c2-bad6-9f92.ngrok-free.app/questionnaire'));
+        'https://c637-2402-4000-b138-4190-8d10-a07-fd79-3d1.ngrok-free.app/questionnaire'));
 
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body) as List<dynamic>;
@@ -121,7 +121,7 @@ class _EmotionalDetectorScreenState extends State<EmotionalDetectorScreen> {
                         try {
                           final response = await http.post(
                             Uri.parse(
-                                'https://ac44-2402-4000-b138-4190-885a-88c2-bad6-9f92.ngrok-free.app/questionnaire'),
+                                'https://c637-2402-4000-b138-4190-8d10-a07-fd79-3d1.ngrok-free.app/questionnaire'),
                             headers: <String, String>{
                               'Content-Type': 'application/json; charset=UTF-8',
                             },
