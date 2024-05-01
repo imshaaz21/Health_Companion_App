@@ -31,7 +31,7 @@ class EmotionalDetectorProvider with ChangeNotifier {
       for (int i = 0; i < 5 - _testResults.length; i++) {
         _testResults.add(EmotionalTestResult(
           testDate: DateTime.now().subtract(Duration(days: i + 1)),
-          score: 0.0,
+          score: 0.88,
           mood: 'Neutral',
         ));
       }
@@ -49,7 +49,7 @@ class EmotionalDetectorProvider with ChangeNotifier {
 
   double getLatestTestScore() {
     if (_testResults.isNotEmpty) {
-      return _testResults.last.score;
+      return double.parse(_testResults.last.score.toString()) * 100;
     } else {
       return 0.0;
     }
