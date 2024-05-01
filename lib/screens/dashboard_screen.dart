@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:health_companion_app/providers/emotional_detector_provider.dart';
 import 'package:health_companion_app/providers/sleep_monitor_provider.dart';
 import 'package:health_companion_app/providers/step_counter_provider.dart';
 import 'package:health_companion_app/utils/utils.dart';
@@ -133,13 +134,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Center(
                       child: ListTile(
                         title: const Text('Emotional Detector'),
-                        subtitle: const Column(
+                        subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Last Test Result: Happy'),
                             Text(
-                              'You last test was on 12/12 : score was 80%',
-                              style: TextStyle(fontSize: 12),
+                                'Last Test Result: ${Provider.of<EmotionalDetectorProvider>(context, listen: true).getLatestMood()}'),
+                            Text(
+                              'You last test was on ${Provider.of<EmotionalDetectorProvider>(context, listen: true).getLatestTestDate()} \nScore was ${Provider.of<EmotionalDetectorProvider>(context, listen: true).getLatestTestScore()}',
+                              style: const TextStyle(fontSize: 12),
                             ),
                           ],
                         ),
@@ -160,19 +162,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   surfaceTintColor: Colors.white,
                   elevation: 5,
                   child: SizedBox(
-                    height: 100,
+                    height: 80,
                     child: Center(
-                      child: ListTile(
-                        title: const Text('Light Condition'),
-                        // subtitle: Text(
-                        //     '${Provider.of<SleepMonitorProvider>(context, listen: true).lightCondition}: ${Provider.of<SleepMonitorProvider>(context, listen: true).luxValue.toInt()} lux'),
-                        subtitle: Text('$_luxString : $_luxValue lux'),
-                        trailing: Icon(
-                          Icons.lightbulb,
-                          color:
-                              _luxValue < 20 ? Colors.redAccent : Colors.green,
-                          size: 40,
-                        ),
+                      child: Column(
+                        children: [
+                          ListTile(
+                            title: const Text('Light Condition'),
+                            // subtitle: Text(
+                            //     '${Provider.of<SleepMonitorProvider>(context, listen: true).lightCondition}: ${Provider.of<SleepMonitorProvider>(context, listen: true).luxValue.toInt()} lux'),
+                            subtitle: Text(
+                              '$_luxString : $_luxValue lux',
+                              style: TextStyle(
+                                color: _luxValue < 20
+                                    ? Colors.redAccent
+                                    : Colors.green,
+                              ),
+                            ),
+                            trailing: Icon(
+                              Icons.lightbulb,
+                              color: _luxValue < 20
+                                  ? Colors.redAccent
+                                  : Colors.green,
+                              size: 40,
+                            ),
+                            // below the method are check the _lux light and insert text Low light, Medium light, High light
+                          ),
+                        ],
                       ),
                     ),
                   ),
