@@ -1,63 +1,132 @@
-## 📥 Download and Install Flutter
+# Active Aware - A SmartPhone-Based Health Companion System
 
-1. **⬇️ Download Flutter SDK**:
-    - [Download the stable release of Flutter SDK](https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.19.5-stable.zip).
-    - The SDK should download to your default download directory (usually `%USERPROFILE%\Downloads`).
+![Active Aware Logo](images/healthcare.png)
 
-2. **📁 Create a Flutter Folder**:
-    - Create a folder for the Flutter SDK in a desired location (e.g., `C:\Users\{username}\dev\flutter`).
+Welcome to Active Aware - your personal health companion app designed to help you achieve a balanced lifestyle encompassing proper sleep, physical activity, and emotional well-being. 🌟
 
-3. **📦 Extract the SDK**:
-    - Extract the SDK ZIP file to the Flutter folder you created.
+Active Aware offers a range of features to track your daily activities, analyze your sleep patterns, and understand your emotions. Let's explore the app in detail!
 
-4. **⚙️ Update Windows PATH Variable**:
-    - Add the Flutter SDK `bin` directory (`%USERPROFILE%\dev\flutter\bin`) to your PATH environment variable.
-    - Search "Environment Variables".
-    - In the "User variables for {username}" section, locate or create a `Path` variable.
-    - Add the Flutter `bin` directory (`%USERPROFILE%\dev\flutter\bin`) to the list of paths.
-    - Ensure it is at the top of the list for priority.
+## Introduction 📱
 
-## 📱 Configure Android Development
+Active Aware is a smartphone-based health companion app developed by Team Pirates for CS4472 Mobile Computing. With a focus on holistic health, the app aims to empower users to lead healthier lives by providing insights into their sleep, activity levels, and emotional well-being.
 
-1. **💻 Install Android Studio**:
-    - [Download and install Android Studio](https://redirector.gvt1.com/edgedl/android/studio/install/2023.2.1.25/android-studio-2023.2.1.25-windows.exe).
-    - Follow the setup wizard and install the necessary components such as:
-        - 🧩 Android SDK Platform, API 34.0.0
-        - 🧰 Android SDK Command-line Tools
-        - 🛠️ Android SDK Build-Tools
-        - 🔧 Android SDK Platform-Tools
-        - 🕹️ Android Emulator
+## Overview 🌐
 
-2. **💻 Create and Configure an Android Emulator**:
-    - Launch Android Studio.
-    - Go to `Tools > Device Manager`.
-    - Click on "Create Device" to set up a new virtual device (Phone or Tablet).
-    - Choose a device definition and system image, then follow the prompts to complete the configuration.
-    - Once created, start the emulator.
+Active Aware provides a central dashboard where users can access information from three key functionalities:
 
-3. **📜 Agree to Android Licenses**:
-    - Open a command prompt or PowerShell.
-    - Run the command `flutter doctor --android-licenses` to accept the licenses for the Android SDK.
+- **Step Counter**: Track your daily steps, burned calories, and progress towards your activity goals.
+- **Sleep Tracker**: Analyze your sleep patterns, view sleep status, last sleep time, and sleep history.
+- **Emotion Detection**: Understand your emotions through questionnaires and mood analysis tools.
 
-## Check Your Development Setup
+The dashboard also displays your current mood and provides a light intensity indicator for healthy habits. 💡
 
-1. **Run Flutter Doctor**:
-    - Open a command prompt or PowerShell.
-    - Run the command `flutter doctor`.
-    - Check the output to verify your setup.
-    - If there are any issues, run `flutter doctor -v` for detailed information.
+## Screenshots 📸
 
-## Start Developing
+| Dashboard | Step Counter |
+|:-----------------:|:-----------------:|
+| ![Dashboard](images/dashboard.jpg) | ![Step Counter](images/stepcounter.jpg) |
 
-- Once you have installed all the necessary components, you can start developing Flutter apps for Windows and Android.
+| Sleep Tracker | Emotion Detection |
+|:-----------------:|:-----------------:|
+| ![Sleep Tracker](images/sleepmonitor.jpg) | ![Emotion Detection](images/emotionaldetector.jpg) |
 
-## Sample UIs
-- [Sleep Monitor](https://dribbble.com/shots/21655991-Sleep-Tracker-UI?utm_source=Clipboard_Shot&utm_campaign=ouhano&utm_content=Sleep%20Tracker%20UI&utm_medium=Social_Share&utm_source=Clipboard_Shot&utm_campaign=ouhano&utm_content=Sleep%20Tracker%20UI&utm_medium=Social_Share)
-- [Step Counter](https://dribbble.com/shots/23650935-Sparta-Health-Tracking-App?utm_source=Clipboard_Shot&utm_campaign=DaffaToldo&utm_content=Sparta%20-%20Health%20Tracking%20App&utm_medium=Social_Share&utm_source=Clipboard_Shot&utm_campaign=DaffaToldo&utm_content=Sparta%20-%20Health%20Tracking%20App&utm_medium=Social_Share)
-- [Emotional Analysis](https://dribbble.com/shots/21388211-Emotion-Tracker?utm_source=Clipboard_Shot&utm_campaign=MorethanDT&utm_content=Emotion%20Tracker&utm_medium=Social_Share&utm_source=Clipboard_Shot&utm_campaign=MorethanDT&utm_content=Emotion%20Tracker&utm_medium=Social_Share)
+## Features 🚀
+
+### Dashboard 📊
+
+The Dashboard page offers a comprehensive view of your health data, including step count, sleep monitor, and emotion analyzer. Simply click on the icons to access detailed insights for each functionality. Your current mood and light intensity indicator are prominently displayed for easy reference.
+
+### Step Counter 🏃‍♂️
+
+The Step Counter page provides real-time updates on your daily step count, burned calories, and progress towards your activity goals. Visualize your step count graph for the past five days and stay motivated to achieve your fitness targets.
+
+### Sleep Tracker 💤
+
+Track your sleep patterns with the Sleep Tracker feature. View your most recent sleep status, last sleep time, and explore your sleep history for deeper insights into your sleep quality and duration.
+
+### Emotion Detection 😊
+
+Understand and manage your emotions with the Emotion Detection feature. Answer questionnaires to analyze your emotional health and track your mood over time. Cultivate positive emotions and build resilience for a healthier mindset.
+
+For the emotion detection feature, we utilize a Python server to perform model predictions. To run the Python server:
+
+1. Navigate to the `server` directory.
+2. Install the required dependencies by running `pip install -r requirements.txt`.
+3. Start the server by running `python run`.
+
+## Sensor Usage and Permissions 🛠️
+
+Active Aware utilizes the following sensors and permissions:
+
+- **Sensor Usage**:
+  - `Proximity Sensor`: Used to detect the proximity of an object to the device.
+  - `Accelerometer`: Utilized to detect movement and determine sleep patterns.
+  - `Light Sensor`: Employed to measure ambient light intensity(lux) for enhancing sleep monitoring accuracy.
+  
+- **Permissions**:
+  - `INTERNET`: Required for internet access to fetch data and perform certain operations.
+  - `BODY_SENSORS_BACKGROUND`: Allows access to body sensors for collecting data in the background.
+  - `ACTIVITY_RECOGNITION`: Necessary for recognizing the user's activity state.
+  - `WAKE_LOCK`: Grants the app permission to keep the device awake to perform tasks.
+  - `CAMERA`: Enables access to the device's camera for certain functionalities.
+  
+## Installation 🛠️
+
+Getting started with Active Aware is easy:
+1. Clone the repository to your local machine.
+2. Open the project in your preferred IDE or code editor.
+3. Ensure you have Flutter installed. If not, follow the [Flutter installation guide](./Installation.md).
+4. Run the app on your emulator or physical device using `flutter run`.
 
 
-## References
+## Light Conditions Based on Lux Value
 
-- [Flutter Documentation](https://docs.flutter.dev/)
-- [Android Studio Download](https://developer.android.com/studio)
+| Lux Value Range    | Light Condition               |
+|--------------------|-------------------------------|
+| Lux ≥ 50,000       | British Summer sunshine      |
+| 10,000 ≤ Lux < 50,000 | Ambient Daylight          |
+| 1,000 ≤ Lux < 10,000 | Overcast daylight          |
+| 500 ≤ Lux < 1,000  | Well lit office              |
+| 400 ≤ Lux < 500    | Sunset & Sunrise             |
+| 120 ≤ Lux < 400    | Family living room           |
+| 100 ≤ Lux < 120    | Lifts                        |
+| 15 ≤ Lux < 100     | Street lightning             |
+| 1 ≤ Lux < 15       | Moonlight (full moon)        |
+| 0.1 ≤ Lux < 1      | Night (No moon)              |
+| Lux < 0.1          | Unknown                      |
+
+## Emotion Detection Icons and Scores
+
+| Mood Score Range      | Mood Icon                        |
+|-----------------------|----------------------------------|
+| Mood Score < 50       | 😡 Very Dissatisfied (Red)       |
+| 50 ≤ Mood Score < 70  | 😐 Neutral (Orange)              |
+| Mood Score ≥ 70       | 😊 Very Satisfied (Green)        |
+
+
+## Light Condition Values
+
+| Lux Value Range | Light Condition          | Icon Color    |
+|-----------------|--------------------------|---------------|
+| luxValue < 20   | Very Poor Light          | Red Accent    |
+| 20 ≤ luxValue < 100 | Poor Light            | Orange        |
+| luxValue ≥ 100  | Good Light               | Green         |
+
+
+
+
+## Dependencies 📦
+
+Active Aware relies on the following dependencies:
+- flutter: ^2.8.0
+- cupertino_icons: ^1.0.6
+- syncfusion_flutter_charts: ^25.1.41+2
+- provider: ^6.1.2
+- shared_preferences: ^2.2.3
+- http: ^1.2.1
+- camera: ^0.10.5+9
+- path_provider: ^2.1.3
+- path: ^1.9.0
+- sensors_plus: ^5.0.1
+- proximity_sensor: ^1.3.1
+- light: ^3.0.1
