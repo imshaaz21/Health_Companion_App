@@ -35,8 +35,11 @@ class StepCounterProvider with ChangeNotifier {
 
   Map<String, int> get stepsMap => _stepsMap;
 
+  // previous steps
+  int _previousSteps = 12888;
+
   void addSteps(String date, int steps) {
-    _stepsMap[date] = steps;
+    _stepsMap[date] = steps - 12888;
     // _saveStepsMap();
     notifyListeners();
   }
