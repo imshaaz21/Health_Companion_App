@@ -83,27 +83,27 @@ class _EmotionalDetectorScreenState extends State<EmotionalDetectorScreen> {
                 },
               )
             : Stack(
-  children: [
-    // Background image
-    // Image.asset(
-    //   "/home/akshilmy/MobileApps/health_companion_app/lib/assets/questionnaire.jpg", // Replace with your image path
-    //   fit: BoxFit.cover, // Adjust fit as needed
-    //   width: double.infinity,
-    //   height: double.infinity,
-    // ),
-    // Text widget with desired styling
-    const Center(
-      child: Text(
-        "Start Quiz ?",
-        style: TextStyle(
-          fontSize: 50.0, // Adjust font size as desired
-          fontWeight: FontWeight.bold,
-          color: Colors.black, // Adjust text color as desired
-        ),
-      ),
-    ),
-  ],
-),
+                children: [
+                  // Background image
+                  // Image.asset(
+                  //   "/home/akshilmy/MobileApps/health_companion_app/lib/assets/questionnaire.jpg", // Replace with your image path
+                  //   fit: BoxFit.cover, // Adjust fit as needed
+                  //   width: double.infinity,
+                  //   height: double.infinity,
+                  // ),
+                  // Text widget with desired styling
+                  const Center(
+                    child: Text(
+                      "Start Quiz ?",
+                      style: TextStyle(
+                        fontSize: 50.0, // Adjust font size as desired
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black, // Adjust text color as desired
+                      ),
+                    ),
+                  ),
+                ],
+              ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: Row(
             mainAxisAlignment:
@@ -121,13 +121,11 @@ class _EmotionalDetectorScreenState extends State<EmotionalDetectorScreen> {
                           body: jsonEncode(encodedAnswers),
                         );
                         setState(() {
-                          _isQuizStarted =
-                              false; 
+                          _isQuizStarted = false;
                           _isSubmitted = true;
                         });
                       },
-                      child: const Icon(Icons.check)
-                    )
+                      child: const Icon(Icons.check))
                   : const Text(""),
               !_isQuizStarted
                   ? FloatingActionButton(
@@ -137,9 +135,9 @@ class _EmotionalDetectorScreenState extends State<EmotionalDetectorScreen> {
                               true; // Set flag to true when Start is pressed
                         });
                       },
-                      child: const Icon(Icons.start),
                       backgroundColor:
                           _isQuizStarted ? Colors.grey : Colors.blue,
+                      child: const Icon(Icons.start),
                     )
                   : const Text(""),
             ]));
@@ -172,7 +170,8 @@ class QuestionCard extends StatefulWidget {
   final Function(String)
       onOptionSelected; // Callback to handle option selection
 
-  const QuestionCard({required this.question, required this.onOptionSelected});
+  const QuestionCard(
+      {super.key, required this.question, required this.onOptionSelected});
 
   @override
   State<QuestionCard> createState() => _QuestionCardState();
