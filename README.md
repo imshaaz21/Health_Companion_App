@@ -1,6 +1,14 @@
 # Active Aware - A SmartPhone-Based Health Companion System
 
-![Active Aware Logo](images/healthcare.png)
+## Screenshots 📸
+
+| Dashboard | Step Counter |
+|:-----------------:|:-----------------:|
+| ![Dashboard](images/dashboard.jpg) | ![Step Counter](images/stepcounter.jpg) |
+
+| Sleep Tracker | Emotion Detection |
+|:-----------------:|:-----------------:|
+| ![Sleep Tracker](images/sleepmonitor.jpg) | ![Emotion Detection](images/emotionaldetector.jpg) |
 
 Welcome to Active Aware - your personal health companion app designed to help you achieve a balanced lifestyle encompassing proper sleep, physical activity, and emotional well-being. 🌟
 
@@ -20,15 +28,6 @@ Active Aware provides a central dashboard where users can access information fro
 
 The dashboard also displays your current mood and provides a light intensity indicator for healthy habits. 💡
 
-## Screenshots 📸
-
-| Dashboard | Step Counter |
-|:-----------------:|:-----------------:|
-| ![Dashboard](images/dashboard.jpg) | ![Step Counter](images/stepcounter.jpg) |
-
-| Sleep Tracker | Emotion Detection |
-|:-----------------:|:-----------------:|
-| ![Sleep Tracker](images/sleepmonitor.jpg) | ![Emotion Detection](images/emotionaldetector.jpg) |
 
 ## Features 🚀
 
