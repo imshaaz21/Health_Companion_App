@@ -99,7 +99,7 @@ class Accelerometer extends State<SleepMonitorScreen> {
             Duration sleepDuration =
                 DateTime.now().difference(_sleepStartTime!);
             debugPrint(
-                'Person is sleeping for more than one hour: $sleepDuration');
+                'Person is sleeping for more than 1/2 hour: $sleepDuration');
             setState(() {
               _sleepDuration = sleepDuration.inSeconds;
             });
