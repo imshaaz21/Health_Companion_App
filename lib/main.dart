@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:health_companion_app/providers/sleep_monitor_provider.dart';
+// import 'package:health_companion_app/providers/sleep_monitor_provider.dart';
 import 'package:health_companion_app/providers/step_counter_provider.dart';
 import 'package:health_companion_app/screens/dashboard_screen.dart';
 import 'package:health_companion_app/screens/emotional_detector_screen.dart';
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => StepCounterProvider()),
-        ChangeNotifierProvider(create: (context) => SleepMonitorProvider()),
+        // ChangeNotifierProvider(create: (context) => SleepMonitorProvider()),
       ],
       child: MaterialApp(
         title: 'ActiveAware',

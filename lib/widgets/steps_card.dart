@@ -16,7 +16,7 @@ class StepsCard extends StatefulWidget {
 class _StepsCardState extends State<StepsCard> {
   @override
   Widget build(BuildContext context) {
-    int totalSteps = 10000;
+    int totalSteps = 20000;
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 10),
