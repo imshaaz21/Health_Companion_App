@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:health_companion_app/models/emotional_test_data.dart';
 import 'package:health_companion_app/utils/utils.dart';
@@ -26,23 +28,44 @@ class EmotionalDetectorProvider with ChangeNotifier {
     }).toList();
 
     // Add dummy data if there are less than 5 test results
-    if (_testResults.length < 5) {
-      // Add 5 dummy data entries
-      for (int i = 0; i < 5 - _testResults.length; i++) {
-        _testResults.add(EmotionalTestResult(
-          testDate: DateTime.now().subtract(Duration(days: i + 1)),
-          score: 0.88,
-          mood: 'Neutral',
-        ));
-      }
-    }
+    // if (_testResults.length < 5) {
+    //   // Add 5 dummy data entries
+    //   for (int i = 0; i < 5 - _testResults.length; i++) {
+    //     _testResults.add(EmotionalTestResult(
+    //       testDate: DateTime.now().subtract(Duration(days: i + 1)),
+    //       score: 0.88,
+    //       mood: 'Neutral',
+    //     ));
+    //   }
+    // }
 
     debugPrint('EmotionalDetectorProvider loaded data : $_testResults');
     notifyListeners();
   }
 
-  Future<void> addTestResult(EmotionalTestResult result) async {
-    _testResults.add(result);
+  Future<void> addTestResult(String result) async {
+    late EmotionalTestResult emotionalTestResult;
+    if (double.parse(result) < 0.5) {
+      emotionalTestResult = EmotionalTestResult(
+        testDate: DateTime.now(),
+        score: double.parse(result),
+        mood: 'Sad',
+      );
+    } else if (double.parse(result) < 0.7) {
+      emotionalTestResult = EmotionalTestResult(
+        testDate: DateTime.now(),
+        score: double.parse(result),
+        mood: 'Neutral',
+      );
+    } else {
+      emotionalTestResult = EmotionalTestResult(
+        testDate: DateTime.now(),
+        score: double.parse(result),
+        mood: 'Happy',
+      );
+    }
+    _testResults.add(emotionalTestResult);
+    debugPrint('EmotionalDetectorProvider added data : $emotionalTestResult');
     await _saveTestResults();
     notifyListeners();
   }
