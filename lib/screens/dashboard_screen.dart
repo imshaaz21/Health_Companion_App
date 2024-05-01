@@ -102,7 +102,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ),
                 // Card for Sleep Monitor
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 Card(
                   surfaceTintColor: Colors.white,
                   elevation: 5,
@@ -125,7 +125,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 Card(
                   surfaceTintColor: Colors.white,
                   elevation: 5,
@@ -145,11 +145,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                           ],
                         ),
-                        trailing: const Icon(
-                          Icons.sentiment_very_satisfied,
-                          color: Colors.orange,
-                          size: 40,
-                        ),
+                        trailing: Provider.of<EmotionalDetectorProvider>(
+                                        context,
+                                        listen: true)
+                                    .getLatestTestScore() <
+                                50
+                            ? const Icon(
+                                Icons.sentiment_very_dissatisfied,
+                                color: Colors.redAccent,
+                                size: 40,
+                              )
+                            : Provider.of<EmotionalDetectorProvider>(context,
+                                            listen: true)
+                                        .getLatestTestScore() <
+                                    70
+                                ? const Icon(
+                                    Icons.sentiment_neutral,
+                                    color: Colors.orange,
+                                    size: 40,
+                                  )
+                                : const Icon(
+                                    Icons.sentiment_very_satisfied,
+                                    color: Colors.green,
+                                    size: 40,
+                                  ),
                         onTap: () =>
                             Navigator.pushNamed(context, '/emotional_detector'),
                       ),
@@ -157,7 +176,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ),
                 // lux meter card
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 Card(
                   surfaceTintColor: Colors.white,
                   elevation: 5,
@@ -174,7 +193,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const SizedBox(height: 10),
+                              const SizedBox(height: 5),
                               Text(
                                 '$_luxString : $_luxValue lux\n',
                                 style: TextStyle(
