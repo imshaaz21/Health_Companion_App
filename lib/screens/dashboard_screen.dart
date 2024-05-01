@@ -162,33 +162,57 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   surfaceTintColor: Colors.white,
                   elevation: 5,
                   child: SizedBox(
-                    height: 80,
-                    child: Center(
-                      child: Column(
-                        children: [
-                          ListTile(
-                            title: const Text('Light Condition'),
-                            // subtitle: Text(
-                            //     '${Provider.of<SleepMonitorProvider>(context, listen: true).lightCondition}: ${Provider.of<SleepMonitorProvider>(context, listen: true).luxValue.toInt()} lux'),
-                            subtitle: Text(
-                              '$_luxString : $_luxValue lux',
-                              style: TextStyle(
-                                color: _luxValue < 20
-                                    ? Colors.redAccent
-                                    : Colors.green,
+                    height: 120,
+                    child: Column(
+                      children: [
+                        ListTile(
+                          title: const Text('Light Condition'),
+
+                          // subtitle: Text(
+                          //     '${Provider.of<SleepMonitorProvider>(context, listen: true).lightCondition}: ${Provider.of<SleepMonitorProvider>(context, listen: true).luxValue.toInt()} lux'),
+                          subtitle: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 10),
+                              Text(
+                                '$_luxString : $_luxValue lux\n',
+                                style: TextStyle(
+                                  color: _luxValue < 20
+                                      ? Colors.redAccent
+                                      : _luxValue < 100
+                                          ? Colors.orange
+                                          : Colors.green,
+                                ),
                               ),
-                            ),
-                            trailing: Icon(
-                              Icons.lightbulb,
-                              color: _luxValue < 20
-                                  ? Colors.redAccent
-                                  : Colors.green,
-                              size: 40,
-                            ),
-                            // below the method are check the _lux light and insert text Low light, Medium light, High light
+                              Text(
+                                  // good condition, bad condition
+                                  _luxValue < 20
+                                      ? 'Very poor Light'
+                                      : _luxValue < 100
+                                          ? 'Poor Light'
+                                          : 'Good Light',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: _luxValue < 20
+                                        ? Colors.redAccent
+                                        : _luxValue < 100
+                                            ? Colors.orange
+                                            : Colors.green,
+                                  )),
+                            ],
                           ),
-                        ],
-                      ),
+                          trailing: Icon(
+                            Icons.lightbulb,
+                            color: _luxValue < 20
+                                ? Colors.redAccent
+                                : Colors.green,
+                            size: 40,
+                          ),
+                          // below the method are check the _lux light and insert text Low light, Medium light, High light
+                        ),
+                      ],
                     ),
                   ),
                 ),
