@@ -54,6 +54,16 @@ For the emotion detection feature, we utilize a Python server to perform model p
 2. Install the required dependencies by running `pip install -r requirements.txt`.
 3. Start the server by running `python run`.
 
+To access the Emotion Detection feature from different networks, you can use ngrok. Ngrok provides a secure tunnel to your localhost, allowing external access to your locally hosted server. Here's how to set it up:
+
+1. Download `ngrok` from the official website and follow the installation instructions for your platform.
+2. After installation, navigate to the directory where ngrok is located.
+3. Start ngrok by running `ngrok http 5000`, Since Python server is running on 5000.
+4. Ngrok will generate a public URL that forwards requests to your local server.
+5. Copy the ngrok URL and replace the server URL in the `emotional_detector_screen.dart` file with the ngrok URL. Ensure to update the URL whenever ngrok generates a new one.
+
+With ngrok set up, you can now access the Emotion Detection feature from any network by using the ngrok URL.
+
 ## Sensor Usage and Permissions 🛠️
 
 Active Aware utilizes the following sensors and permissions:
